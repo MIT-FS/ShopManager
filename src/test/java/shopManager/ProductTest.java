@@ -3,20 +3,24 @@
  */
 package shopManager;
 
-import static org.junit.Assert.*;
-import java.util.logging.*;
-import org.junit.Before;
+import static org.junit.jupiter.api.Assertions.*;
 
-import org.junit.Test;
+
+import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.BeforeAll;
+import org.junit.jupiter.api.Tag;
 
 import shopmanager.MyProduct;
 import shopmanager.Product;
+
+import java.util.logging.*;
 
 
 /**
  * @author Isabel Román
  *
  */
+@Tag("unidad")
 public class ProductTest {
 	private static Logger trazador=Logger.getLogger(ProductTest.class.getName());
 	static Product producto;
@@ -25,11 +29,11 @@ public class ProductTest {
 	/**
 	 * @throws java.lang.Exception
 	 */
-	@Before
-	public void setUp() throws Exception {
+	@BeforeAll
+	public static void setUp() throws Exception {
 		producto=new MyProduct("primerId");
-	    assertEquals("Al crear producto sin número de unidades debe tener 1",1,producto.getNumber());
-	    assertEquals("El id del producto es el pasado en el constructor","primerId",producto.getId());
+	    assertEquals(1,producto.getNumber(),"Al crear producto sin número de unidades debe tener 1");
+	    assertEquals("primerId",producto.getId(),"El id del producto es el pasado en el constructor");
 		
 	}
 
@@ -38,7 +42,7 @@ public class ProductTest {
 	public void TestSetId() {
 		trazador.info("Test del setId");
 		producto.setId("nuevoId");
-		assertEquals("El setId no funciona ","nuevoId",producto.getId());
+		assertEquals("nuevoId",producto.getId(),"El setId no funciona ");
 		
 	}
 	
@@ -46,7 +50,7 @@ public class ProductTest {
 	public void TestSetNumber() {
 		trazador.info("Test del setNumber");
 		producto.setNumber(33);
-		assertEquals("El setNumber no funciona ",33,producto.getNumber());
+		assertEquals(33,producto.getNumber(),"El setNumber no funciona ");
 	}
 	
 	@Test
@@ -54,16 +58,16 @@ public class ProductTest {
 		trazador.info("Test del oneMore");
 		producto.setNumber(33);
 		
-		assertEquals("El oneMore no funciona ",34,producto.oneMore());
+		assertEquals(34,producto.oneMore(),"El oneMore no funciona ");
 	}
 	@Test
 	public void TestOneLess() {
 		trazador.info("Test del OneLess");
 		producto.setNumber(1);
 		
-		assertEquals("El oneLess no funciona cuando es distinto de 0 ",0,producto.oneLess());
+		assertEquals(0,producto.oneLess(),"El oneLess no funciona cuando es distinto de 0 ");
 		producto.oneLess();
-		assertEquals("El oneLess no funciona cuando es 0 ",0,producto.oneLess());
+		assertEquals(0,producto.oneLess(),"El oneLess no funciona cuando es 0 ");
 	}
 	
 

@@ -30,6 +30,10 @@ public class MyStockManager implements StockManager{
 		mapProducts = hzInstance.getMap("products");
         trazador.info("Se ha recuperado referencia al mapa products, si no se había usado se ha creado");
 	}
+	@Override
+	public void clean() {
+		mapProducts.clear();
+	}
 	/**
 	 * @deprecated
 	 * @see 

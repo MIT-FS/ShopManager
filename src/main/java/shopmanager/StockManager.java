@@ -23,6 +23,10 @@ public interface StockManager {
 	 * El producto buscado, que incluye el número de unidades existentes, null is no está en el mapa
 	 */
 	Product searchProduct(String id);
+	/**
+	 * Vacia el stock
+	 */
+	void clean();
 	
 }
 
