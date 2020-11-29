@@ -1,4 +1,4 @@
-package shopmanager;
+package model;
 
 import java.io.Serializable;
 
@@ -18,11 +18,22 @@ import java.util.logging.*;
 
 public class MyProduct implements Product,Serializable{
 	
+	/**
+	 * Obligatorio en objetos serializables, debe poder identificarse en el destino la clase exacta con la que se creó
+	 */
 	private static final long serialVersionUID = 1L;
+	/**
+	 * Objeto tipo logger para gestionar los mensajes durante la ejecución
+	 */
 	private static Logger trazador=Logger.getLogger(MyProduct.class.getName());
 	
-	//identificador del producto
+	/**
+	 * Identificador del producto
+	 */
 	private String id;
+	/**
+	 * Número de unidades del producto
+	 */
 	private int number;
 	
 	public MyProduct(String id) {

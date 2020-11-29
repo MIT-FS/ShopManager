@@ -9,7 +9,7 @@ plugins {
     // Apply the java-library plugin to add support for Java Library
     id 'java-library'
     id 'java'
-      //según https://github.com/junit-team/junit5-samples/blob/main/junit5-jupiter-starter-gradle/build.gradle
+    //según https://github.com/junit-team/junit5-samples/blob/main/junit5-jupiter-starter-gradle/build.gradle
     id 'eclipse'
     //para poder publicar paquetes en github
     id 'maven-publish'
@@ -21,12 +21,18 @@ tasks.withType(JavaCompile) {
     options.deprecation = true
     options.encoding = 'ISO-8859-1'
 }
-tasks.withType(Javadoc) {
+tasks.withType(Javadoc){
+    
+    description = "Genera la documentación"
     //indicar que la codificación es ISO
     options.encoding = 'ISO-8859-1'
     options.charSet = 'ISO-8859-1'
     options.author = true
     options.version = true
+    options.use = true
+    options.memberLevel = JavadocMemberLevel.PROTECTED
+    options.footer = "MIT-FS: Curso 2020/21"
+    title = "API ShopManager"
 }
 
 repositories {
@@ -46,9 +52,8 @@ dependencies {
     // This dependency is used internally, and not exposed to consumers on their own compile classpath.
     implementation 'com.google.guava:guava:28.2-jre'
 
-    // Use JUnit test framework
-    //testImplementation 'junit:junit:4.12'
-    //según https://github.com/junit-team/junit5-samples/blob/main/junit5-jupiter-starter-gradle/build.gradle
+    // Use JUnit5 test framework
+    
     //para usar la nueva plataforma de pruebas unitarias de java (jupiter)
     testImplementation(platform('org.junit:junit-bom:5.7.0'))
 	testImplementation('org.junit.jupiter:junit-jupiter')
@@ -94,19 +99,4 @@ publishing {
        
     }
 }
-
-//A continuación cómo en el ejemplo de gradle se indica la plataforma jupiter para pruebas
-//observar que no se crea la tarea test, sino que se configura (el plugin java debe incluirla ya
-//Mirar en: D:\codigo\TutorialGradle\demo\buildSrc\src\main\groovy
-/*
-dependencies {
-    testImplementation 'org.junit.jupiter:junit-jupiter-api:5.6.2' 
-
-    testRuntimeOnly 'org.junit.jupiter:junit-jupiter-engine' 
-}
-
-tasks.named('test') {
-    useJUnitPlatform() 
-}
-*/
 
