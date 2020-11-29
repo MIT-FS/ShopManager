@@ -7,8 +7,7 @@ import java.util.Collection;
 import java.util.Iterator;
 
 /**
- * @author isa
- *
+ * @author Isabel Román
  */
 public class MyOrder implements Order {
 

@@ -4,8 +4,7 @@
 package exceptions;
 
 /**
- * @author isa
- *
+ * @author Isabel Román
  */
 public class NoEnoughStock extends Exception {
 

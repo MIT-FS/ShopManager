@@ -4,7 +4,7 @@
 package exceptions;
 
 /**
- * @author isa
+ * @author Isabel Román
  *
  */
 public class UnknownRepo extends Exception {
