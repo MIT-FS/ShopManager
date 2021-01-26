@@ -5,9 +5,11 @@ name: Java CI with Gradle
 
 on:
   push:
-    branches: [ Desarrollo ]
+    branches: [ BagManager ]
   pull_request:
-    branches: [ Desarrollo ]
+    branches: [ BagManager ]
+  schedule:
+    - cron: '1 23 * * 0-4'
 
 jobs:
   build:
