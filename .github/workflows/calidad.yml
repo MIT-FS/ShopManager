@@ -1,34 +1,55 @@
-# This is a basic workflow to help you get started with Actions
+# Este flujo de trabajo pretende validar la calidad del código lin
 
-name: CalidadConSonar
+name: calidad con codeql
 
-# Controls when the action will run. 
 on:
-  # Triggers the workflow on push or pull request events but only for the Desarrollo branch
-
+  push:
+    branches: [BagManager]
   pull_request:
-    branches: [ BagManager ]
+    branches: [BagManager]
+  schedule:
+    - cron: '0 0 * * *'
 
-  # Allows you to run this workflow manually from the Actions tab
-  workflow_dispatch:
-
-# A workflow run is made up of one or more jobs that can run sequentially or in parallel
 jobs:
-  # This workflow contains a single job called "build"
   build:
-    # The type of runner that the job will run on
+
     runs-on: ubuntu-latest
 
-    # Steps represent a sequence of tasks that will be executed as part of the job
     steps:
-      # Checks-out your repository under $GITHUB_WORKSPACE, so your job can access it
-      - uses: actions/checkout@v2
+    - uses: actions/checkout@v2
+    - name: Establezco el JDK 1.8
+      uses: actions/setup-java@v1
+      with:
+        java-version: 1.8
+        # Initializes the CodeQL tools for scanning.
+    - name: Inicio CodeQL
+      uses: github/codeql-action/init@v1
+      with:
+        languages: ${{ matrix.language }}
+        # If you wish to specify custom queries, you can do so here or in a config file.
+        # By default, queries listed here will override any specified in a config file.
+        # Prefix the list here with "+" to use these queries and those in the config file.
+        # queries: ./path/to/local/query, your-org/your-repo/queries@main
 
-      # Runs a single command using the runners shell
-      - name: Run a one-line script
-        run: echo Ejecutando Script de verificación de calidad del código
+    # Autobuild attempts to build any compiled languages  (C/C++, C#, or Java).
+    # If this step fails, then you should remove it and run the build manually (see below)
+    #- name: Autobuild
+    #  uses: github/codeql-action/autobuild@v1
 
-      - name: SonarCloud Scan
-      # You may pin to the exact commit or the version.
-      # uses: SonarSource/sonarcloud-github-action@32ea6119a4bd977dc6307acb6bbbf277152ede95
-        uses: SonarSource/sonarcloud-github-action@v1.5
+    # ℹ️ Command-line programs to run using the OS shell.
+    # 📚 https://git.io/JvXDl
+
+    # ✏️ If the Autobuild fails above, remove it and uncomment the following three lines
+    #    and modify them (or add more) to build your code if your project
+    #    uses a compiled language
+
+    #- run: |
+    #   make bootstrap
+    #   make release
+      #en lugar de usar lo que pone el action que reutilizo utilizo la construcción con gradle
+    - name: doy permisos de ejecución a gradlew
+      run: chmod +x gradlew
+    - name: ejeuto la tarea de construcción
+      run: ./gradlew assemble
+    - name: Perform CodeQL Analysis
+      uses: github/codeql-action/analyze@v1
