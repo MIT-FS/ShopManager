@@ -3,6 +3,7 @@
 name: calidad con codeql
 
 on:
+  workflow_dispatch:
   push:
     branches: [BagManager]
   pull_request:
