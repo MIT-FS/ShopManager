@@ -52,5 +52,20 @@ jobs:
       run: chmod +x gradlew
     - name: ejeuto la tarea de construcción
       run: ./gradlew assemble
-    - name: Perform CodeQL Analysis
+    - name: ejecuto el análisis estático
       uses: github/codeql-action/analyze@v1
+    - name: Enviando mail con el resultado
+      uses: dawidd6/action-send-mail@v2
+      with:
+       server_address: smtp.gmail.com
+       server_port: 465
+       username: ${{secrets.MAIL_USERNAME}}
+       password: ${{secrets.MAIL_PASSWORD}}
+       subject: Resultado de la verificación estática del código
+       # Literal body:
+       body: El trabajo de análisis de calidad de ${{github.repository}} se ha realizado
+       to: irm@us.es
+       from: isa.roman@gmail.com # <user@example.com>
+      
+       # Optional attachments:
+       attachments: /home/runner/work/ShopManager/results/java-builtin.sarif
