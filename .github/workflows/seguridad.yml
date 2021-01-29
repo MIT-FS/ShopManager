@@ -1,13 +1,13 @@
-# Este flujo de trabajo pretende validar la calidad del código, análisis estático (lint)
+# Este flujo de trabajo pretende validar la seguridad del código y envía los resultados a la sección de seguridad del repositorio https://github.com/MIT-FS/ShopManager/security
 
 name: calidad con codeql
 
 on:
-  workflow_dispatch:
   push:
     branches: [BagManager]
   pull_request:
     branches: [BagManager]
+  workflow_dispatch:
   schedule:
     - cron: '0 0 * * *'
 
@@ -48,11 +48,11 @@ jobs:
     #   make bootstrap
     #   make release
       #en lugar de usar lo que pone el action que reutilizo utilizo la construcción con gradle
-    - name: Doy permisos de ejecución a gradlew
+    - name: doy permisos de ejecución a gradlew
       run: chmod +x gradlew
-    - name: Ejecuto la tarea de construcción
+    - name: ejeuto la tarea de construcción
       run: ./gradlew assemble
-    - name: Ejecuto el análisis de calidad
+    - name: ejecuto el análisis estático
       uses: github/codeql-action/analyze@v1
     - name: Enviando mail con el resultado
       uses: dawidd6/action-send-mail@v2
@@ -63,9 +63,9 @@ jobs:
        password: ${{secrets.MAIL_PASSWORD}}
        subject: Resultado de la verificación estática del código
        # Literal body:
-       body: El trabajo de análisis de calidad de ${{github.repository}} se ha realizado
+       body: El trabajo de análisis de calidad de ${{github.repository}} se ha realizado, lo tiene disponible en la sección de seguridad del repositorio
        to: irm@us.es
        from: isa.roman@gmail.com # <user@example.com>
       
        # Optional attachments:
-       attachments: /home/runner/work/ShopManager/results/java-builtin.sarif  
+       attachments: /home/runner/work/ShopManager/results/java-builtin.sarif
