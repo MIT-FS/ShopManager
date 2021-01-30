@@ -3,13 +3,9 @@
 name: calidad con codeql
 
 on:
-  push:
-    branches: [BagManager]
-  pull_request:
-    branches: [BagManager]
   workflow_dispatch:
   schedule:
-    - cron: '0 0 * * *'
+    - cron: '0 0 * * 0,3'
 
 jobs:
   build:
