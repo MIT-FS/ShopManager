@@ -21,10 +21,11 @@ import model.IdComparator;
 import model.MyOrder;
 import model.Order;
 import model.Product;
+import model.UnitsComparator;
 import persistency.OrderRepository;
 import shopmanager.StockManager;
 /**
- * @author Isabel Román
+ * @author Isabel Romï¿½n
  *
  */
 public class MyBagManager implements BagManager {
@@ -35,7 +36,7 @@ public class MyBagManager implements BagManager {
 	private Order order;
 	
 	/**
-	 * Al hacer privado el constructor obligo a que la construcción del objeto se haga siempre a través de newBag
+	 * Al hacer privado el constructor obligo a que la construcciï¿½n del objeto se haga siempre a travï¿½s de newBag
 	 */
 	public MyBagManager(){
 		cesta=new HashMap<String,Product>();
@@ -51,7 +52,7 @@ public class MyBagManager implements BagManager {
 
 	@Override
 	public Product addProduct(Product newProduct)throws NoEnoughStock, NotInStock{
-		String msg="El id del producto es "+newProduct.getId()+" y las unidades a añadir"+newProduct.getNumber();
+		String msg="El id del producto es "+newProduct.getId()+" y las unidades a aï¿½adir"+newProduct.getNumber();
 		trazador.info(msg);
 		//quito del stock las unidades solicitadas, si no hubiera suficientes lanza NoEnoughStock, si el producto no existe lanza NotInStock
 		stock.lessProduct(newProduct);
@@ -87,7 +88,7 @@ public class MyBagManager implements BagManager {
 	@Override
 	public Collection<Product> getBag() {
 			
-		return (List<Product>) cesta.values();
+		return (Collection<Product>) cesta.values();
 	}
 
 	@Override
@@ -106,7 +107,7 @@ public class MyBagManager implements BagManager {
 	
 	@Override
 	public Order order() {
-		// No crea el objeto order, aún no está resuelto quién será el responsable de elegir el tipo concreto
+		// No crea el objeto order, aï¿½n no estï¿½ resuelto quiï¿½n serï¿½ el responsable de elegir el tipo concreto
 		try{ 	       
 		   trazador.info("Intento persistir el stock");
 	       stock.save();	
@@ -116,7 +117,7 @@ public class MyBagManager implements BagManager {
 	       repositorio.save(order);
 	    
 		} catch (UnknownRepo ex) {
-			trazador.info("No ha sido posible guardar el pedido, no se estableció el repositorio en el stock");
+			trazador.info("No ha sido posible guardar el pedido, no se estableciï¿½ el repositorio en el stock");
 		}
 	    	
 		return order;
@@ -124,29 +125,26 @@ public class MyBagManager implements BagManager {
 
 	@Override
 	public void reset() {
-		// Debería restaurar el stock, pero por ahora no se hace, sólo borra
+		// Deberï¿½a restaurar el stock, pero por ahora no se hace, sï¿½lo borra
 		cesta.clear();
 		
 	}
-	
 
 	@Override
-	public Iterator<Product> getPrizeIterator() {
-		// TODO Auto-generated method stub
-		return null;
-	}
-
-	@Override
+	public Iterator<Product> getUnitsIterator(){
+		// Ordena la cesta segun las unidades de producto y devuelve un tipo iterador
+		Collection<Product> Cesta = this.getBag();
+		List<Product> OrdenarCesta = new ArrayList<Product>(Cesta);
+		Collections.sort(OrdenarCesta, new UnitsComparator());
+		
+		return OrdenarCesta.listIterator();
+	}	
+  	@Override
 	public Iterator<Product> getIdIterator() {
 		ArrayList<Product> productosEnCesta = new ArrayList<Product>(cesta.values());
 		Collections.sort(productosEnCesta, new IdComparator());
 		return productosEnCesta.listIterator();
 	}
 
-	@Override
-	public Iterator<Product> getUnitsIterator() {
-		// TODO Auto-generated method stub
-		return null;
-	}
 
 }

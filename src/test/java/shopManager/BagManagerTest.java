@@ -7,11 +7,12 @@ import shopmanager.*;
 import static org.junit.jupiter.api.Assertions.*;
 
 import static org.mockito.Mockito.mockitoSession;
-
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Iterator;
 import java.util.logging.Logger;
+
+
 
 import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.BeforeEach;
@@ -40,8 +41,8 @@ import org.mockito.Mockito;
 
 
 /**
- * @author Isabel Román
- * Clase para realizar los test a la clase MyBagManager, o a cualquier otra clase que implemente BagManager siempre que se sustituya la declaración private static MyBagManager micestaTesteada;
+ * @author Isabel RomÃ¡n
+ * Clase para realizar los test a la clase MyBagManager, o a cualquier otra clase que implemente BagManager siempre que se sustituya la declaraciÃ³n private static MyBagManager micestaTesteada;
  *
  */
 @ExtendWith(MockitoExtension.class)
@@ -49,16 +50,19 @@ class BagManagerTest {
 	private static Logger trazador=Logger.getLogger(ProductTest.class.getName());
 	
 	//Creo los objetos sustitutos (representantes o mocks)
-	//Son objetos contenidos en MyBagManager de los que aún no disponemos el código
+	//Son objetos contenidos en MyBagManager de los que aÃºn no disponemos el cÃ³digo
+
 	@Mock(serializable = true)
 	private static Product producto1Mock= Mockito.mock(Product.class);
 	@Mock(serializable = true)
 	private static Product producto2Mock= Mockito.mock(Product.class);
+	@Mock(serializable = true)
 	private static Product producto3Mock= Mockito.mock(Product.class);
 	@Mock(serializable = true)
 	private static Product producto4Mock= Mockito.mock(Product.class);
 	@Mock(serializable = true)
 	private static Product producto5Mock= Mockito.mock(Product.class);
+
 	@Mock
 	private static StockManager stockMock= Mockito.mock(StockManager.class);
 	@Mock 
@@ -66,14 +70,14 @@ class BagManagerTest {
 	@Mock
 	private static Order orderMock=Mockito.mock(Order.class);
 	
-	//Inyección de dependencias
-	//Los objetos contenidos en micestaTesteada son reemplazados automáticamente por los sustitutos (mocks)
+	//InyecciÃ³n de dependencias
+	//Los objetos contenidos en micestaTesteada son reemplazados automÃ¡ticamente por los sustitutos (mocks)
 	@InjectMocks
 	private static MyBagManager micestaTesteada;
 
 	
-	//Servirán para conocer el argumento con el que se ha invocado algún método de alguno de los mocks (sustitutos o representantes)
-	//ArgumentCaptor es un genérico, indico al declararlo el tipo del argumento que quiero capturar
+	//ServirÃ¡n para conocer el argumento con el que se ha invocado algÃºn mÃ©todo de alguno de los mocks (sustitutos o representantes)
+	//ArgumentCaptor es un genÃ©rico, indico al declararlo el tipo del argumento que quiero capturar
 	@Captor
 	private ArgumentCaptor<Integer> intCaptor;
 	@Captor
@@ -86,22 +90,21 @@ class BagManagerTest {
 	
 	@BeforeEach
 	void setUpBeforeClass(){
-		//Todos los tests empiezan con la bolsa vacía
-		
+		//Todos los tests empiezan con la bolsa vacia
 		   micestaTesteada.reset();
 	}
   /**
-   * Test para probar el método de efectuar un pedido  {@link shopmanager.BagManager#order()}
+   * Test para probar el mÃ©todo de efectuar un pedido  {@link shopmanager.BagManager#order()}
    * 
-   * @throws NoEnoughStock Se intenta añadir un número de unidades de un producto, pero no hay suficientes en stock
-   * @throws NotInStock Se intenta añadir un producto, pero no existe ese tipo en el stock
-   * @throws UnknownRepo Se intenta guardar algo en un repositorio, pero no se ha establecido bien esta referencia y no sabe dónde guardar
+   * @throws NoEnoughStock Se intenta aÃ±adir un nÃºmero de unidades de un producto, pero no hay suficientes en stock
+   * @throws NotInStock Se intenta aÃ±adir un producto, pero no existe ese tipo en el stock
+   * @throws UnknownRepo Se intenta guardar algo en un repositorio, pero no se ha establecido bien esta referencia y no sabe dÃ³nde guarda
    */
 	
 	@Test
 	@Tag("unidad")
-	@DisplayName("Prueba del método que asienta el pedido")
-    void testOrder() throws NoEnoughStock, NotInStock, UnknownRepo {
+	@DisplayName("Prueba del mÃ©todo que asienta el pedido")
+  void testOrder() throws NoEnoughStock, NotInStock, UnknownRepo {
 		trazador.info("Comienza el test de order");
 		//Hago un pedido que no debe tener problemas
 		trazador.info("Primero sin problemas");
@@ -117,10 +120,10 @@ class BagManagerTest {
 		
 		//EJERCICIO: Elimine este comentario, ejecute los test
 		//	Mockito.verifyZeroInteractions(repositoryMock); 
-		// ¿Por qué falla el test si se pone aquí esta comprobación?
+		// Â¿Por quÃ© falla el test si se pone aquÃ­ esta comprobaciÃ³n?
 		
-		//si no se pueda guardar el stock no se guarda el pedido, no se llega a tocar el repositorio ni se modifica order, y mi cesta gestiona la excepción, no debe propagarse y por tanto no debe lanzarla
-		trazador.info("Ahora hago que salte la excepción UnknownRepo en el stock, para ver si la gestiona bien BagManager");
+		//si no se pueda guardar el stock no se guarda el pedido, no se llega a tocar el repositorio ni se modifica order, y mi cesta gestiona la excepciÃ³n, no debe propagarse y por tanto no debe lanzarla
+		trazador.info("Ahora hago que salte la excepciÃ³n UnknownRepo en el stock, para ver si la gestiona bien BagManager");
 		Mockito.doThrow(new UnknownRepo()).when(stockMock).save();
 		try {
 			micestaTesteada.order();		
@@ -129,8 +132,9 @@ class BagManagerTest {
 	
 		}
 		catch(Exception e) {
-			//Me aseguro de que BagManager gestiona esta excepción y no la propaga
-			fail("BagManager debe gestionar la excepción UnknownRepo y no propagarla");
+			//Me aseguro de que BagManager gestiona esta excepciÃ³n y no la propaga
+			fail("BagManager debe gestionar la excepciÃ³n UnknownRepo y no propagarla");
+
 		
 		}
 		
@@ -138,12 +142,12 @@ class BagManagerTest {
 	
 	/**
 	 * Test method for {@link shopmanager.BagManager#addProduct(model.Product)}.
-	 * @throws NotInStock lanza cualquier excepción de sus clientes, no las gestiona siempre internamente
-	 * @throws NoEnoughStock lanza cualquier excepción de sus clientes, no las gestiona siempre internamente
+	 * @throws NotInStock lanza cualquier excepciÃ³n de sus clientes, no las gestiona siempre internamente
+	 * @throws NoEnoughStock lanza cualquier excepciÃ³n de sus clientes, no las gestiona siempre internamente
 	 */
 	@Test
 	@Tag("unidad")
-	@DisplayName("Prueba del método que añade un producto")
+	@DisplayName("Prueba del mÃ©todo que aÃ±ade un producto")
 	void testAddProduct() throws NoEnoughStock, NotInStock {
 		Mockito.when(producto1Mock.getId()).thenReturn("id1");
 		Mockito.when(producto1Mock.getNumber()).thenReturn(1);
@@ -153,13 +157,13 @@ class BagManagerTest {
 		micestaTesteada.addProduct(producto1Mock);
 
 		assertTrue(micestaTesteada.findProduct("id1").isPresent());
-		assertEquals(1,micestaTesteada.findProduct("id1").get().getNumber(),"El producto insertado deb�a tener una unidad");
+		assertEquals(1,micestaTesteada.findProduct("id1").get().getNumber(),"El producto insertado debía tener una unidad");
 
 		micestaTesteada.addProduct(producto2Mock);
-		assertEquals(2,micestaTesteada.findProduct("id2").get().getNumber(),"El producto insertado debía tener dos unidades");
+		assertEquals(2,micestaTesteada.findProduct("id2").get().getNumber(),"El producto insertado debÃ­a tener dos unidades");
 		assertTrue(micestaTesteada.findProduct("id1").isPresent());
-		/**Cuidado con los mock, no son el objeto de verdad son sustitutos y no implementan la lógica de los objetos**/ 
-		/**Analizar por qué estos dos test que vienen a continuación no son correctos, mientras que los de arriba sí*/
+		/**Cuidado con los mock, no son el objeto de verdad son sustitutos y no implementan la lÃ³gica de los objetos**/ 
+		/**Analizar por quÃ© estos dos test que vienen a continuaciÃ³n no son correctos, mientras que los de arriba sÃ­*/
 		/*
 		micestaTesteada.addProduct(producto1Mock);
 		assertEquals(2,micestaTesteada.findProduct("id1").get().getNumber(),"El incremento de un producto en una unidad no se hace bien");
@@ -167,53 +171,56 @@ class BagManagerTest {
 		assertEquals(4,micestaTesteada.findProduct("id2").get().getNumber(),"El incremento de un producto en dos unidades no se hace bien");
 		*/
 		
-		//Para ver si realmente hace bien la actualización de valores lo que deberíamos es asegurar que el método 
+
+		//Para ver si realmente hace bien la actualizaciÃ³n de valores lo que deberÃ­amos es asegurar que el mÃ©todo 
 		//newProduct.setNumber(newProduct.getNumber()+antes);
 		//se invoca con el valor correcto (no invoca la primera vez, ni la segunda porque el producto no estaba, la tercera se invoca con 2 y la cuarta con 4, porque hay que cambiarle el valor)
-		//estoy suponiendo que se guarda exactamente el mismo producto que se pasa, no se hace ningún tipo de copia (en realidad no tendría por qué suponer esto...
+		//estoy suponiendo que se guarda exactamente el mismo producto que se pasa, no se hace ningÃºn tipo de copia (en realidad no tendrÃ­a por quÃ© suponer esto...
 		//Es para probar las prestaciones de los ArgumentCaptors
 		
-		//la segunda vez que añado el producto debe sumarse el número de unidades a las que ya había
+		//la segunda vez que aÃ±ado el producto debe sumarse el nÃºmero de unidades a las que ya habÃ­a
 		micestaTesteada.addProduct(producto1Mock);
-		//quiero verificar el argumento que se ha usado en el mock para poner el número de unidades
+		//quiero verificar el argumento que se ha usado en el mock para poner el nÃºmero de unidades
 	    Mockito.verify(producto1Mock).setNumber(intCaptor.capture());
-	    assertEquals(2,intCaptor.getValue(), "El argumento para actualizar el número de unidades en el producto no se calcula bien");
+	    assertEquals(2,intCaptor.getValue(), "El argumento para actualizar el nÃºmero de unidades en el producto no se calcula bien");
 	  
 	    micestaTesteada.addProduct(producto2Mock);	
 	    Mockito.verify(producto2Mock).setNumber(intCaptor.capture());
-	    assertEquals(4,intCaptor.getValue(), "El argumento para actualizar el número de unidades en el producto no se calcula bien");
+	    assertEquals(4,intCaptor.getValue(), "El argumento para actualizar el nÃºmero de unidades en el producto no se calcula bien");
 	    
-	    //Si hay no hay stock el producto no se debe añadir, parto de nuevo de la cesta vacía
+	    //Si hay no hay stock el producto no se debe aÃ±adir, parto de nuevo de la cesta vacÃ­a
 	    micestaTesteada.reset();
 	    Mockito.doThrow(new NoEnoughStock(0)).when(stockMock).lessProduct(producto1Mock);
 	    try {
 	    	micestaTesteada.addProduct(producto1Mock);
-	    	//debe saltar la excepción así que no debe llegar aquí
-	    	fail("No salta la excepción del stock");
+	    	//debe saltar la excepciÃ³n asÃ­ que no debe llegar aquÃ­
+	    	fail("No salta la excepciÃ³n del stock");
 	    }catch(NoEnoughStock e){
-	    	assertEquals("No hay suficientes unidades en el Stock, sólo quedan 0",e.getMessage(),"El mensaje de la excepción no es correcto");
+	    	assertEquals("No hay suficientes unidades en el Stock, sÃ³lo quedan 0",e.getMessage(),"El mensaje de la excepciÃ³n no es correcto");
 	
 	    }   
 
-	    //Aseguro que si no hab�a suficientes unidades no se ha agregado a la cesta
+	    //Aseguro que si no había suficientes unidades no se ha agregado a la cesta
 	  
-	    assertFalse(micestaTesteada.findProduct("id1").isPresent(),"Se agrega un producto cuando no hab�a suficientes unidades");
+	    assertFalse(micestaTesteada.findProduct("id1").isPresent(),"Se agrega un producto cuando no había suficientes unidades");
 	    
-	    //Ahora pruebo la gestión de la excepción NotInStock, no se debe agregar a la cesta y debe lanzar la excepción
-	    //aseguro que parto de la cesta vacía
+	    //Ahora pruebo la gestiÃ³n de la excepciÃ³n NotInStock, no se debe agregar a la cesta y debe lanzar la excepciÃ³n
+	    //aseguro que parto de la cesta vacÃ­a
 	    micestaTesteada.reset();
 	    Mockito.doThrow(new NotInStock("id1")).when(stockMock).lessProduct(producto1Mock);
 	    try {
 	    	micestaTesteada.addProduct(producto1Mock);
-	    	//debe saltar la excepción así que no debe llegar aquí
-	    	fail("No salta la excepción NotInStock stock");
+
+	    	//debe saltar la excepciÃ³n asÃ­ que no debe llegar aquÃ­
+	    	fail("No salta la excepciÃ³n NotInStock stock");
 	    }catch(NotInStock e){
-	    	assertEquals("El producto con id id1 no existe en el Stock",e.getMessage(),"El mensaje de la excepción no es correcto");
+	    	assertEquals("El producto con id id1 no existe en el Stock",e.getMessage(),"El mensaje de la excepciÃ³n no es correcto");
 	
 	    }   
 
-	  //Aseguro que si no exist�a en el stock no se ha agregado a la cesta
+	  //Aseguro que si no existía en el stock no se ha agregado a la cesta
 	   assertFalse(micestaTesteada.findProduct("id1").isPresent(),"Se agrega un producto que no existe en el stock");
+
 
 	}
 
@@ -273,7 +280,7 @@ class BagManagerTest {
 	}
 	/**
 	 * Rellena una cesta con los dos mocks declarados al inicio
-	 * @throws NoEnoughStock Si no hay suficiente stock del producto a añadir
+	 * @throws NoEnoughStock Si no hay suficiente stock del producto a aÃ±adir
 	 * @throws NotInStock Si no existe el producto en el stock
 	 */
 	void rellenaCesta() throws NoEnoughStock, NotInStock {
@@ -284,16 +291,45 @@ class BagManagerTest {
 		micestaTesteada.addProduct(producto1Mock);
 		micestaTesteada.addProduct(producto2Mock);
 	}
+  
+	@Test
+	@Tag("unidad")
+	@DisplayName("Prueba Iterador")
+    void testGetUnitsIterator() throws NoEnoughStock, NotInStock 
+	{
+		//Inicializo los mocks
+		Mockito.when(producto1Mock.getId()).thenReturn("id1");
+		Mockito.when(producto1Mock.getNumber()).thenReturn(1);
+		Mockito.when(producto2Mock.getId()).thenReturn("id2");
+		Mockito.when(producto2Mock.getNumber()).thenReturn(2);
+		Mockito.when(producto3Mock.getId()).thenReturn("id3");
+		Mockito.when(producto3Mock.getNumber()).thenReturn(3);	
+		//Agrego los productos a la cesta considerando que se aÃ±adieron correctamente
+		micestaTesteada.addProduct(producto1Mock);
+		micestaTesteada.addProduct(producto2Mock);		
+		micestaTesteada.addProduct(producto3Mock);
+		Iterator<Product> iterador=micestaTesteada.getUnitsIterator();
+		//Pruebo que no esta vacia
+		assertTrue(iterador.hasNext(), "El iterador esta vacio");
+		//Comprobamos que esten en orden de mayor a menor.
+		assertTrue(producto3Mock.getNumber()==iterador.next().getNumber(), "El primer producto debe de ser el 3");
+		assertTrue(iterador.hasNext(), "No se tienen todos los elementos que se metieron en la cesta");
+		assertTrue(producto2Mock.getNumber()==iterador.next().getNumber(), "El segundo producto debe de ser el 2");
+		assertTrue(iterador.hasNext(), "No se tienen todos los elementos que se metieron en la cesta");
+		assertTrue(producto1Mock.getNumber()==iterador.next().getNumber(), "El tercer producto debe de ser el 1");
+		assertFalse(iterador.hasNext(), "La cesta tiene mas productos de lo esperado");
+	}
+
 	//El test se repite para reducir la probabilidad de que un orden de vuelta aleatorio pase la prueba
 	@RepeatedTest(5)
-	@DisplayName("Prueba para el método getIdIterator (repetible)")
+	@DisplayName("Prueba para el mÃ©todo getIdIterator (repetible)")
 	public void testGetIdIterator() {
 
 		//Prueba basica
 		ArrayList<String> idList1 = new ArrayList<String>();
 		idList1.add("id1");idList1.add("id2");idList1.add("id3");idList1.add("id4");idList1.add("id5");
 
-		//Prueba con strings sin número
+		//Prueba con strings sin nÃºmero
 		ArrayList<String> idList2 = new ArrayList<String>();
 		idList2.add("a");idList2.add("b");idList2.add("c");idList2.add("d");idList2.add("e");
 
@@ -301,15 +337,15 @@ class BagManagerTest {
 		ArrayList<String> idList3 = new ArrayList<String>();
 		idList3.add("a");idList3.add("aa");idList3.add("aaa");idList3.add("aaaa");idList3.add("aaaaa");
 
-		//Prueba con numeros (el orden de salida debe ser lexicográfico, no numérico)
+		//Prueba con numeros (el orden de salida debe ser lexicogrÃ¡fico, no numÃ©rico)
 		ArrayList<String> idList4 = new ArrayList<String>();
 		idList4.add("24683");idList4.add("22");idList4.add("335");idList4.add("2788");idList4.add("99");
 
-		//Prueba con caracteres extraños y espacios
+		//Prueba con caracteres extraÃ±os y espacios
 		ArrayList<String> idList5 = new ArrayList<String>();
-		idList5.add(" º?'");idList5.add(".ªº^");idList5.add("&$@ ");idList5.add("_ -*+");idList5.add("{[]}");
+		idList5.add(" Âº?'");idList5.add(".ÂªÂº^");idList5.add("&$@ ");idList5.add("_ -*+");idList5.add("{[]}");
 
-		//Aquí falta una prueba para el caso de ids repetidos, pero este comportamiento no está definido y no se puede probar
+		//AquÃ­ falta una prueba para el caso de ids repetidos, pero este comportamiento no estÃ¡ definido y no se puede probar
 
 
 		ArrayList<String> [] tests = (ArrayList<String> []) new ArrayList[5];
@@ -322,7 +358,7 @@ class BagManagerTest {
 		for (ArrayList<String> idList : tests) 
 		{
 			micestaTesteada.reset();
-			//Desordenar los ID para evitar que el iterador devuelva con orden de inserción
+			//Desordenar los ID para evitar que el iterador devuelva con orden de inserciÃ³n
 			Collections.sort(idList);
 			ArrayList<String> orderedIds = new ArrayList<String>(idList); //Id esperados en orden
 			Collections.shuffle(idList);
@@ -339,7 +375,7 @@ class BagManagerTest {
 			Mockito.when(producto5Mock.getId()).thenReturn(idList.get(4));
 			Mockito.when(producto5Mock.getNumber()).thenReturn(1);
 
-			//Añadir los productos Mock
+			//AÃ±adir los productos Mock
 			try 
 			{
 				micestaTesteada.addProduct(producto1Mock);
@@ -351,7 +387,7 @@ class BagManagerTest {
 			catch (Exception e)
 			{
 				trazador.info(e.getMessage());
-				fail("Fallo crítico mientras se insertaban los productos");
+				fail("Fallo crÃ­tico mientras se insertaban los productos");
 			}
             Iterator<Product> myIterator;
 			try 
@@ -361,13 +397,13 @@ class BagManagerTest {
 			catch (Exception e)
 			{
 				trazador.info(e.getMessage());
-				fail("Fallo crítico mientras se intentaba conseguir el iterador");
+				fail("Fallo crÃ­tico mientras se intentaba conseguir el iterador");
 			}
 			myIterator= micestaTesteada.getIdIterator();
 
 			if(!myIterator.hasNext()) 
 			{
-				fail("El iterador devuelto está vacío");
+				fail("El iterador devuelto estÃ¡ vacÃ­o");
 			}
 
 			for(String id : orderedIds) 
@@ -385,7 +421,7 @@ class BagManagerTest {
 
 			if(myIterator.hasNext()) 
 			{
-				fail("El iterador devuelto contiene más productos de los que debería");
+				fail("El iterador devuelto contiene mÃ¡s productos de los que deberÃ­a");
 			}
 		}
 		//fail("Not yet completely implemented, work in progress");
