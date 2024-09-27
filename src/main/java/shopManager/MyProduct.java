@@ -24,6 +24,7 @@ public class MyProduct implements Product,Serializable{
 	//identificador del producto
 	private String id;
 	private int number;
+	private float price;
 	
 	MyProduct(String id) {
 		this.id=id;
@@ -33,6 +34,7 @@ public class MyProduct implements Product,Serializable{
 	MyProduct(String id,int number) {
 		this.id=id;
 		this.number=number;
+		this.price = 0;
 	}
 	 @Override
     public void setId(String id) {
@@ -57,6 +59,15 @@ public class MyProduct implements Product,Serializable{
     	number++;
     	return number;
     }
+    //Nuevos metodos
+    public float getPrice() {
+    	return this.price;
+    }
+    public void setPrice(float price) {
+    	this.price = price;
+    }
+    
+   
     @Override
     public int oneLess(){
     	if (number!= 0){
