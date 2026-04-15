@@ -1,6 +1,6 @@
-Este proyecto se va a utilizar como base para la asignatura FactorÌa del Software de primero del MIT de la Universidad de Sevilla
-CaracterÌsticas del proyecto:
-LibrerÌa shopManager para facilitar el desarrollo de aplicaciones de tienda virtual
-Usa gradle para controlar la construcciÛn y dependencias
+Este proyecto se utiliz√≥ como base para la asignatura Factor√≠a del Software de primero del MIT de la Universidad de Sevilla
+Caracter√≠sticas del proyecto:
+Librer√≠a shopManager para facilitar el desarrollo de aplicaciones de tienda virtual
+Usa gradle para controlar la construcci√≥n y dependencias
 Usa el sistema de trazado de java
 Usa hazelcast para tener datos en memoria compartida del stock y de los pedidos
